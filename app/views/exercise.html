@@ -1,0 +1,44 @@
+<section class="exercise">
+	<div ng-switch="gameEnded">
+		<div ng-switch-when="true">
+			<div class="stats md-display-1">
+				{{getRightAnswers().length}} de {{exercisesSet.length}}
+			</div>
+			<md-divider></md-divider>
+			<p></p>
+			<div class="md-subhead" ng-show="guessed.status">
+				<span ng-show="guessed.result">
+					¡Estabas en lo correcto!
+				</span>
+				<span ng-show="!guessed.result">
+					¿Creíste que se trataba de {{config.guess.selected.fullname}}?
+				</span>
+			</div>
+
+			<h2>{{person.fullname}} ({{person.occupation}})</h2>
+			<p>{{person.description}}</p>
+			<a href="{{person.wikiurl}}" ng-if="person.wikiurl">Leer artículo original</a>
+
+		    <md-button ng-click="restart()" class="primary">Jugar de nuevo</md-button>
+		</div>
+
+		<div ng-switch-default>
+			Seleccione la respuesta:
+			<md-radio-group ng-model="exercise.selected" ng-change="answer()">
+		      <md-radio-button ng-repeat="item in exercise.option" value="{{$index}}" class="md-primary">{{exercise.option[$index]}}</md-radio-button>
+		    </md-radio-group>
+			<md-divider></md-divider>
+			<md-button ng-click="answer(567)">Enviar</md-button>
+			<md-divider></md-divider>
+			<h5>{{exercise.category}}</h5>
+			<p>{{exercise.description}}</p>
+			<figure ng-if="exercise.image">
+				<img ng-src="{{exercise.image}}" alt="">
+			</figure>
+
+		</div>
+	</div>
+	
+	
+	
+</section>

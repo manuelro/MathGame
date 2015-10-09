@@ -18,12 +18,14 @@ angular.module('gameApp')
       angular.forEach(entry, function(value, key){
         if(/^gsx\$/.test(key)){
           key = key.replace(/gsx\$/, '');
+          if(/^[0-9]+$/.test(value.$t)) value.$t = Number(value.$t);
 
           if(/[0-9]+$/.test(key)){
             key = key.replace(/[0-9]+$/, '');
 
             if(!angular.isDefined(obj[key])) obj[key] = [];
             if(value.$t.length) obj[key].push(value.$t);
+            
           } else {
             obj[key] = value.$t;
           }

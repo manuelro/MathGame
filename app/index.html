@@ -6,6 +6,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
@@ -15,39 +16,62 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="gameApp" ng-controller="GameCtrl">
+  <body ng-app="gameApp" 
+    ng-controller="GameCtrl" 
+    ng-class="{'game-ended':gameEnded, 'show-guess-options':showGuessOptions, 'show-hint': showHint}"
+    layout="row" layout-align="center center">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <span>My App's Title</span>
-            <div ui-view="foo"></div>
-            <!-- fill up the space between left and right area -->
-            <span flex></span>
-            <md-button>
-            Right Bar Button
-          </md-button>
-        </div>
-    </md-toolbar>
+    <md-content class="content" 
+      layout-padding
+      layout="row"
+      flex="90"
+      layout-wrap>
 
-    <md-content class="content" layout="row" flex layout-align="center start" layout-padding>
-      
-      <section flex="40">
-        <md-grid-list class="grid" md-cols="3" md-row-height="1:1">
-          <md-grid-tile ng-repeat="item in [1,2,3,4,5,6,7,8,9]">Foo {{item}}</md-grid-tile>
-        </md-grid-list>
+      <div flex="100" layout="row">
+
+          <div class="md-display-2">GuessWho</div>
+
+          <div flex></div>
+
+          <md-menu md-position-mode="target-right target" >
+
+                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                  <md-icon>settings</md-icon>
+                </md-button>
+
+                <md-menu-content width="4">
+                  <md-radio-group ng-model="config.currentLevelIndex">
+                    <md-radio-button ng-repeat="item in config.levels" value="{{$index}}" class="md-primary">{{item.name}}</md-radio-button>
+                  </md-radio-group>
+
+                  <md-menu-item>
+                    <md-button ng-click="restart()">
+                      <md-icon>refresh</md-icon>
+                      Reiniciar
+                    </md-button>
+                  </md-menu-item>
+                </md-menu-content>
+              </md-menu>
+
+      </div>
+
+      <section flex="30">
+
+        <grid></grid>
         
-        <div>
-          <md-button>Hint</md-button>
-          <md-button>Hint</md-button>
+        <div ng-hide="gameEnded">
+          <md-button ng-click="toggleGuessOptions()">Adivinar</md-button>
         </div>
 
       </section>
 
+      <div flex="5"></div>
+
       <section flex>
-        The exercise goes here
+        <exercise></exercise>
       </section>
 
     </md-content>
@@ -86,6 +110,10 @@
         <script src="scripts/services/exercise.js"></script>
         <script src="scripts/services/maps.js"></script>
         <script src="scripts/services/mapper.js"></script>
+        <script src="scripts/services/randomizer.js"></script>
+        <script src="scripts/directives/exercise.js"></script>
+        <script src="scripts/directives/grid.js"></script>
+        <script src="scripts/services/utils.js"></script>
         <!-- endbuild -->
 </body>
 </html>
